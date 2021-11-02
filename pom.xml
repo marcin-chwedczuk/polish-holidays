@@ -27,6 +27,7 @@
 
     <!-- Maven's plugins -->
     <maven-surefire.plugin.version>3.0.0-M5</maven-surefire.plugin.version>
+    <maven-spotless.plugin.version>2.11.0</maven-spotless.plugin.version>
   </properties>
 
   <licenses>
@@ -78,6 +79,11 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire.plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${maven-spotless.plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -99,6 +105,28 @@
             <version>${junit.version}</version>
           </dependency>
         </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <configuration>
+          <java>
+            <googleJavaFormat>
+              <version>1.7</version>
+              <style>GOOGLE</style>
+            </googleJavaFormat>
+          </java>
+        </configuration>
+        <executions>
+          <execution>
+            <id>spotless-check</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
