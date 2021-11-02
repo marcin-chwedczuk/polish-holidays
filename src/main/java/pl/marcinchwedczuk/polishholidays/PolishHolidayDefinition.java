@@ -23,10 +23,6 @@ class PolishHolidayDefinition {
         this.entries = entries;
     }
 
-    public Optional<PolishHoliday> holidayForDate(LocalDate date) {
-        throw new RuntimeException("not impl");
-    }
-
     public Optional<PolishHoliday> maybeHolidayForYear(int year) {
         return entries.stream()
             .filter(entry -> entry.isDefinedForYear(year))

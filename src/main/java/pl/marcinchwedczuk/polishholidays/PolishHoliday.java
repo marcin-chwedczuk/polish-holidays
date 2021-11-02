@@ -3,6 +3,8 @@ package pl.marcinchwedczuk.polishholidays;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
 public final class PolishHoliday {
     private final LocalDate date;
     private final String englishName;
@@ -15,10 +17,10 @@ public final class PolishHoliday {
                          String polishName,
                          PolishHolidayType type,
                          boolean publicHoliday) {
-        this.date = date;
-        this.englishName = englishName;
-        this.polishName = polishName;
-        this.type = type;
+        this.date = requireNonNull(date);
+        this.englishName = requireNonNull(englishName);
+        this.polishName = requireNonNull(polishName);
+        this.type = requireNonNull(type);
         this.publicHoliday = publicHoliday;
     }
 
@@ -48,9 +50,9 @@ public final class PolishHoliday {
         if (o == null || getClass() != o.getClass()) return false;
         PolishHoliday that = (PolishHoliday) o;
         return publicHoliday == that.publicHoliday &&
-                date.equals(that.date) &&
-                englishName.equals(that.englishName) &&
-                polishName.equals(that.polishName) &&
+                Objects.equals(this.date, that.date) &&
+                Objects.equals(this.englishName, that.englishName) &&
+                Objects.equals(this.polishName, that.polishName) &&
                 type == that.type;
     }
 
