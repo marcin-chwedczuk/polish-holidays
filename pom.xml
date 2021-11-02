@@ -28,6 +28,7 @@
     <!-- Maven's plugins -->
     <maven-surefire.plugin.version>3.0.0-M5</maven-surefire.plugin.version>
     <maven-spotless.plugin.version>2.11.0</maven-spotless.plugin.version>
+    <maven-spotbugs.plugin.version>4.4.1</maven-spotbugs.plugin.version>
   </properties>
 
   <licenses>
@@ -72,6 +73,10 @@
   </dependencies>
 
   <build>
+    <defaultGoal>
+      clean verify
+    </defaultGoal>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -83,6 +88,11 @@
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
           <version>${maven-spotless.plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>${maven-spotbugs.plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -121,6 +131,25 @@
         <executions>
           <execution>
             <id>spotless-check</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <configuration>
+          <efford>max</efford>
+          <includeTests>true</includeTests>
+          <failOnError>true</failOnError>
+        </configuration>
+        <executions>
+          <execution>
+            <id>spotbugs-check</id>
             <phase>verify</phase>
             <goals>
               <goal>check</goal>
