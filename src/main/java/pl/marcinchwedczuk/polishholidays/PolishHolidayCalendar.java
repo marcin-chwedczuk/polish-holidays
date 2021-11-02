@@ -137,7 +137,7 @@ class PolishHolidayCalendar {
 
     private final PolishHolidayDefinition mothersDay = PolishHolidayDefinition.create(rules -> {
         rules.newRule()
-                .usesAlgorithm(fixedAtMonthDay(5, 16))
+                .usesAlgorithm(fixedAtMonthDay(5, 26))
                 .withEnglishName("Mother's Day")
                 .withPolishName("Dzień Matki")
                 .withType(UNOFFICIAL)
@@ -147,8 +147,8 @@ class PolishHolidayCalendar {
     private final PolishHolidayDefinition corpusChristi = PolishHolidayDefinition.create(rules -> {
         rules.newRule()
                 .usesAlgorithm(relativeToEaster(60))
-                .withEnglishName("Boże Ciało")
-                .withPolishName("Feast of Corpus Christi")
+                .withEnglishName("Feast of Corpus Christi")
+                .withPolishName("Boże Ciało")
                 .withType(RELIGIOUS)
                 .markAsPublicHoliday()
                 .add();
@@ -195,11 +195,10 @@ class PolishHolidayCalendar {
 
     private final PolishHolidayDefinition christmasEve = PolishHolidayDefinition.create(rules -> {
         rules.newRule()
-                .usesAlgorithm(fixedAtMonthDay(12, 25))
+                .usesAlgorithm(fixedAtMonthDay(12, 24))
                 .withEnglishName("Christmas Eve")
                 .withPolishName("Wigilia Bożego Narodzenia")
                 .withType(RELIGIOUS)
-                .markAsPublicHoliday()
                 .add();
     });
 
@@ -220,6 +219,15 @@ class PolishHolidayCalendar {
                 .withPolishName("Boże Narodzenie")
                 .withType(RELIGIOUS)
                 .markAsPublicHoliday()
+                .add();
+    });
+
+    private final PolishHolidayDefinition newYearsEve = PolishHolidayDefinition.create(rules -> {
+        rules.newRule()
+                .usesAlgorithm(fixedAtMonthDay(12, 31))
+                .withEnglishName("New Year's Eve")
+                .withPolishName("Sylwester")
+                .withType(UNOFFICIAL)
                 .add();
     });
 
@@ -244,7 +252,8 @@ class PolishHolidayCalendar {
                 independenceDay,
                 christmasEve,
                 christmas,
-                christmas2
+                christmas2,
+                newYearsEve
         );
     }
 

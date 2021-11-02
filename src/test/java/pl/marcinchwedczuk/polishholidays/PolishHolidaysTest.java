@@ -5,9 +5,11 @@ import pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert;
 
 import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.marcinchwedczuk.polishholidays.PolishHolidayType.*;
 import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.assertThat;
@@ -18,123 +20,158 @@ public class PolishHolidaysTest {
     @Test
     public void returns_list_of_holidays() {
         List<PolishHoliday> holidays = PolishHolidays.forYear(2021);
+        Iterator<PolishHoliday> iter = holidays.iterator();
 
         // Source: https://www.nbp.pl/homen.aspx?f=/en/onbp/organizacja/schedule.html
         // Source: Google Calendar for year 2021
 
-        assertThat(holidays.get(0))
+        assertThat(iter.next())
                 .hasDate(LocalDate.of(2021, 1, 1))
                 .hasEnglishName("New Year's Day")
                 .hasPolishName("Nowy Rok")
                 .hasType(OTHER)
                 .isPublicHoliday();
 
-        assertHoliday(holidays.get(1),
-                LocalDate.of(2021, 1, 6),
-                RELIGIOUS,
-                "Epiphany",
-                "Święto Trzech Króli",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 1, 6))
+                .hasEnglishName("Epiphany")
+                .hasPolishName("Święto Trzech Króli")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
 
-        assertHoliday(holidays.get(2),
-                LocalDate.of(2021, 4, 4),
-                RELIGIOUS,
-                "Easter",
-                "Wielkanoc",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 2, 14))
+                .hasEnglishName("Valentine's Day")
+                .hasPolishName("Walentynki")
+                .hasType(OTHER)
+                .isNotPublicHoliday();
 
-        assertHoliday(holidays.get(3),
-                LocalDate.of(2021, 4, 5),
-                RELIGIOUS,
-                "Easter Monday",
-                "Poniedziałek Wielkanocny",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 4, 2))
+                .hasEnglishName("Good Friday")
+                .hasPolishName("Wielki Piątek")
+                .hasType(RELIGIOUS)
+                .isNotPublicHoliday();
 
-        assertHoliday(holidays.get(4),
-                LocalDate.of(2021, 5, 1),
-                OTHER,
-                "Labour Day",
-                "Święto Pracy",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 4, 3))
+                .hasEnglishName("Holy Saturday")
+                .hasPolishName("Wielka Sobota")
+                .hasType(RELIGIOUS)
+                .isNotPublicHoliday();
 
-        assertHoliday(holidays.get(5),
-                LocalDate.of(2021, 5, 3),
-                NATIONAL,
-                "Constitution Day",
-                "Święto Konstytucji Trzeciego Maja",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 4, 4))
+                .hasEnglishName("Easter")
+                .hasPolishName("Wielkanoc")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
 
-        assertHoliday(holidays.get(6),
-                LocalDate.of(2021, 5, 23),
-                RELIGIOUS,
-                "Whit Sunday",
-                "Zielone Świątki",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 4, 5))
+                .hasEnglishName("Easter Monday")
+                .hasPolishName("Poniedziałek Wielkanocny")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
 
-        assertHoliday(holidays.get(7),
-                LocalDate.of(2021, 6, 3),
-                RELIGIOUS,
-                "Feast of Corpus Christi",
-                "Boże Ciało",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 5, 1))
+                .hasEnglishName("Labour Day")
+                .hasPolishName("Święto Pracy")
+                .hasType(OTHER)
+                .isPublicHoliday();
 
-        // TODO: "Święto Wojska Polskiego" at the same date
-        assertHoliday(holidays.get(8),
-                LocalDate.of(2021, 8, 15),
-                RELIGIOUS,
-                "Assumption of Mary",
-                "Wniebowzięcie Najświętszej Maryi Panny",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 5, 2))
+                .hasEnglishName("Polish National Flag Day")
+                .hasPolishName("Dzień Flagi Rzeczypospolitej Polskiej")
+                .hasType(NATIONAL)
+                .isNotPublicHoliday();
 
-        assertHoliday(holidays.get(9),
-                LocalDate.of(2021, 10, 1),
-                RELIGIOUS,
-                "All Saint's Day",
-                "Wszystkich Świętych",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 5, 3))
+                .hasEnglishName("Constitution Day")
+                .hasPolishName("Święto Konstytucji Trzeciego Maja")
+                .hasType(NATIONAL)
+                .isPublicHoliday();
 
-        assertHoliday(holidays.get(10),
-                LocalDate.of(2021, 11, 11),
-                NATIONAL,
-                "Independence Day",
-                "Dzień Niepodległości",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 5, 23))
+                .hasEnglishName("White Sunday")
+                .hasPolishName("Zielone Świątki")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
 
-        assertHoliday(holidays.get(11),
-                LocalDate.of(2021, 12, 25),
-                RELIGIOUS,
-                "Christmas (1st day)",
-                "Boże Narodzenie",
-                true);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 5, 26))
+                .hasEnglishName("Mother's Day")
+                .hasPolishName("Dzień Matki")
+                .hasType(UNOFFICIAL)
+                .isNotPublicHoliday();
 
-        assertHoliday(holidays.get(12),
-                LocalDate.of(2021, 12, 26),
-                RELIGIOUS,
-                "Christmas (2st day)",
-                "Boże Narodzenie",
-                true);
-    }
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 6, 3))
+                .hasEnglishName("Feast of Corpus Christi")
+                .hasPolishName("Boże Ciało")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
 
-    private void assertHoliday(PolishHoliday holiday,
-                               LocalDate expectedDate,
-                               PolishHolidayType type,
-                               String expectedEnglishName,
-                               String expectedPolishName,
-                               boolean expectedIsPublic) {
-        assertThat(holiday.date())
-                .as("holiday date")
-                .isEqualTo(expectedDate);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 6, 23))
+                .hasEnglishName("Father's Day")
+                .hasPolishName("Dzień Ojca")
+                .hasType(UNOFFICIAL)
+                .isNotPublicHoliday();
 
-        assertThat(holiday.englishName())
-                .as("holiday english name")
-                .isEqualTo(expectedEnglishName);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 8, 15))
+                .hasEnglishName("Assumption of Mary")
+                .hasPolishName("Wniebowzięcie Najświętszej Maryi Panny")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
 
-        assertThat(holiday.polishName())
-                .as("holiday polish name")
-                .isEqualTo(expectedPolishName);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 11, 1))
+                .hasEnglishName("All Saints' Day")
+                .hasPolishName("Wszystkich Świętych")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
 
-        assertThat(holiday.isPublicHoliday())
-                .as("is public holiday?")
-                .isEqualTo(expectedIsPublic);
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 11, 11))
+                .hasEnglishName("National Independence Day")
+                .hasPolishName("Dzień Niepodległości")
+                .hasType(NATIONAL)
+                .isPublicHoliday();
+
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 12, 24))
+                .hasEnglishName("Christmas Eve")
+                .hasPolishName("Wigilia Bożego Narodzenia")
+                .hasType(RELIGIOUS)
+                .isNotPublicHoliday();
+
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 12, 25))
+                .hasEnglishName("Christmas")
+                .hasPolishName("Boże Narodzenie")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
+
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 12, 26))
+                .hasEnglishName("Christmas")
+                .hasPolishName("Boże Narodzenie")
+                .hasType(RELIGIOUS)
+                .isPublicHoliday();
+
+        assertThat(iter.next())
+                .hasDate(LocalDate.of(2021, 12, 31))
+                .hasEnglishName("New Year's Eve")
+                .hasPolishName("Sylwester")
+                .hasType(UNOFFICIAL)
+                .isNotPublicHoliday();
+
+        assertFalse(iter.hasNext(), "No more holidays in 2021");
     }
 }
