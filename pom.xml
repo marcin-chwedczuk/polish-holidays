@@ -38,14 +38,14 @@
   </licenses>
 
   <scm>
-    <developerConnection>https://github.com/todo.git</developerConnection>
-    <url>https://github.com/todo.git</url>
-    <connection>git://github.com/todo.git</connection>
+    <developerConnection>https://github.com/marcin-chwedczuk/polish-holidays.git</developerConnection>
+    <url>https://github.com/marcin-chwedczuk/polish-holidays.git</url>
+    <connection>git://github.com/marcin-chwedczuk/polish-holidays.git</connection>
   </scm>
 
   <issueManagement>
     <system>GitHub</system>
-    <url>http://github.com/todo/issues</url>
+    <url>https://github.com/marcin-chwedczuk/polish-holidays/issues</url>
   </issueManagement>
 
   <dependencies>

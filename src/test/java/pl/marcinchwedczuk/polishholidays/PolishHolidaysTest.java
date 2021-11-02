@@ -1,16 +1,12 @@
 package pl.marcinchwedczuk.polishholidays;
 
 import org.junit.jupiter.api.Test;
-import pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert;
 
-import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.marcinchwedczuk.polishholidays.PolishHolidayType.*;
 import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.assertThat;
 
