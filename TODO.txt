@@ -3,3 +3,4 @@
 - Add automatic-module-name, and maybe provide module-info (check how to do this)
 - Publish on Maven Central
 - Readme, tags and description.
+- Add slavic holidays e.g. noc kupały

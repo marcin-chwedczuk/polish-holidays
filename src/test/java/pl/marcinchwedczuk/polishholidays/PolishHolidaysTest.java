@@ -78,7 +78,7 @@ public class PolishHolidaysTest {
                 "Boże Ciało",
                 true);
 
-        // Święto Wojska Polskiego
+        // TODO: "Święto Wojska Polskiego" at the same date
         assertHoliday(holidays.get(8),
                 LocalDate.of(2021, 8, 15),
                 RELIGIOUS,
