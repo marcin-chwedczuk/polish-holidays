@@ -3,12 +3,12 @@ package pl.marcinchwedczuk.polishholidays;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class RelativeHolidayDateAlgorithm implements HolidayDateAlgorithm {
+public class RelativeDateHolidayDateAlgorithm implements HolidayDateAlgorithm {
     private final HolidayDateAlgorithm base;
     private final int offsetDays;
 
-    public RelativeHolidayDateAlgorithm(HolidayDateAlgorithm base,
-                                        int offsetDays) {
+    public RelativeDateHolidayDateAlgorithm(HolidayDateAlgorithm base,
+                                            int offsetDays) {
         this.base = Objects.requireNonNull(base);
         this.offsetDays = offsetDays;
     }

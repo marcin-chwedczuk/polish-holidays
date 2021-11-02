@@ -1,6 +1,5 @@
 package pl.marcinchwedczuk.polishholidays;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.Arrays;
 import java.util.List;
 
@@ -212,7 +211,7 @@ class PolishHolidayCalendar {
                 .add();
     });
 
-    private final PolishHolidayDefinition christmas2 = PolishHolidayDefinition.create(rules -> {
+    private final PolishHolidayDefinition christmasSecondDay = PolishHolidayDefinition.create(rules -> {
         rules.newRule()
                 .usesAlgorithm(fixedAtMonthDay(12, 26))
                 .withEnglishName("Christmas")
@@ -252,7 +251,7 @@ class PolishHolidayCalendar {
                 independenceDay,
                 christmasEve,
                 christmas,
-                christmas2,
+                christmasSecondDay,
                 newYearsEve
         );
     }
@@ -262,7 +261,7 @@ class PolishHolidayCalendar {
     }
 
     private static HolidayDateAlgorithm relativeToEaster(int offsetDays) {
-        return new RelativeHolidayDateAlgorithm(new EasterDateHolidayDateAlgorithm(), offsetDays);
+        return new RelativeDateHolidayDateAlgorithm(new EasterDateHolidayDateAlgorithm(), offsetDays);
     }
 
     public List<PolishHoliday> findHolidaysForYear(int year) {
