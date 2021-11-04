@@ -3,14 +3,7 @@ package pl.marcinchwedczuk.polishholidays;
 import java.util.List;
 import java.util.Optional;
 
-class PolishHolidayDefinitionRuleBuilder {
-  static PolishHolidayDefinitionRuleBuilder builder(
-      List<PolishHolidayDefinitionRule> entries) {
-    return new PolishHolidayDefinitionRuleBuilder(entries);
-  }
-
-  private final List<PolishHolidayDefinitionRule> target;
-
+public class HolidayDefinitionRuleBuilder {
   private final Integer validFromYearIncluding;
   private final Integer validToYearExcluding;
 
@@ -19,19 +12,17 @@ class PolishHolidayDefinitionRuleBuilder {
   private final String englishName;
   private final String polishName;
 
-  private final PolishHolidayType type;
+  private final HolidayType type;
   private final boolean publicHoliday;
 
-  private PolishHolidayDefinitionRuleBuilder(
-      List<PolishHolidayDefinitionRule> target,
+  private HolidayDefinitionRuleBuilder(
       Integer validFromYearIncluding,
       Integer validToYearExcluding,
       HolidayDateAlgorithm holidayDateAlgorithm,
       String englishName,
       String polishName,
-      PolishHolidayType type,
+      HolidayType type,
       boolean publicHoliday) {
-    this.target = target;
     this.validFromYearIncluding = validFromYearIncluding;
     this.validToYearExcluding = validToYearExcluding;
     this.holidayDateAlgorithm = holidayDateAlgorithm;
@@ -41,14 +32,12 @@ class PolishHolidayDefinitionRuleBuilder {
     this.publicHoliday = publicHoliday;
   }
 
-  private PolishHolidayDefinitionRuleBuilder(
-      List<PolishHolidayDefinitionRule> target) {
-    this(target, null, null, null, null, null, null, false);
+  HolidayDefinitionRuleBuilder() {
+    this(null, null, null, null, null, null, false);
   }
 
-  public PolishHolidayDefinitionRuleBuilder validFromYearIncluding(int year) {
-    return new PolishHolidayDefinitionRuleBuilder(
-        target,
+  public HolidayDefinitionRuleBuilder validFromYearIncluding(int year) {
+    return new HolidayDefinitionRuleBuilder(
         year,
         validToYearExcluding,
         holidayDateAlgorithm,
@@ -58,9 +47,8 @@ class PolishHolidayDefinitionRuleBuilder {
         publicHoliday);
   }
 
-  public PolishHolidayDefinitionRuleBuilder validUntilYearExcluding(int year) {
-    return new PolishHolidayDefinitionRuleBuilder(
-        target,
+  public HolidayDefinitionRuleBuilder validUntilYearExcluding(int year) {
+    return new HolidayDefinitionRuleBuilder(
         validFromYearIncluding,
         year,
         holidayDateAlgorithm,
@@ -70,10 +58,9 @@ class PolishHolidayDefinitionRuleBuilder {
         publicHoliday);
   }
 
-  public PolishHolidayDefinitionRuleBuilder usesAlgorithm(
+  public HolidayDefinitionRuleBuilder usesAlgorithm(
       HolidayDateAlgorithm holidayDateAlgorithm) {
-    return new PolishHolidayDefinitionRuleBuilder(
-        target,
+    return new HolidayDefinitionRuleBuilder(
         validFromYearIncluding,
         validToYearExcluding,
         holidayDateAlgorithm,
@@ -83,9 +70,8 @@ class PolishHolidayDefinitionRuleBuilder {
         publicHoliday);
   }
 
-  public PolishHolidayDefinitionRuleBuilder withEnglishName(String name) {
-    return new PolishHolidayDefinitionRuleBuilder(
-        target,
+  public HolidayDefinitionRuleBuilder withEnglishName(String name) {
+    return new HolidayDefinitionRuleBuilder(
         validFromYearIncluding,
         validToYearExcluding,
         holidayDateAlgorithm,
@@ -95,9 +81,8 @@ class PolishHolidayDefinitionRuleBuilder {
         publicHoliday);
   }
 
-  public PolishHolidayDefinitionRuleBuilder withPolishName(String name) {
-    return new PolishHolidayDefinitionRuleBuilder(
-        target,
+  public HolidayDefinitionRuleBuilder withPolishName(String name) {
+    return new HolidayDefinitionRuleBuilder(
         validFromYearIncluding,
         validToYearExcluding,
         holidayDateAlgorithm,
@@ -107,9 +92,8 @@ class PolishHolidayDefinitionRuleBuilder {
         publicHoliday);
   }
 
-  public PolishHolidayDefinitionRuleBuilder withType(PolishHolidayType type) {
-    return new PolishHolidayDefinitionRuleBuilder(
-        target,
+  public HolidayDefinitionRuleBuilder withType(HolidayType type) {
+    return new HolidayDefinitionRuleBuilder(
         validFromYearIncluding,
         validToYearExcluding,
         holidayDateAlgorithm,
@@ -119,9 +103,8 @@ class PolishHolidayDefinitionRuleBuilder {
         publicHoliday);
   }
 
-  public PolishHolidayDefinitionRuleBuilder markAsPublicHoliday() {
-    return new PolishHolidayDefinitionRuleBuilder(
-        target,
+  public HolidayDefinitionRuleBuilder markAsPublicHoliday() {
+    return new HolidayDefinitionRuleBuilder(
         validFromYearIncluding,
         validToYearExcluding,
         holidayDateAlgorithm,
@@ -131,8 +114,8 @@ class PolishHolidayDefinitionRuleBuilder {
         true);
   }
 
-  public void add() {
-    PolishHolidayDefinitionRule entry = new PolishHolidayDefinitionRule(
+  public HolidayDefinitionRule build() {
+    HolidayDefinitionRule rule = new HolidayDefinitionRule(
         Optional.ofNullable(validFromYearIncluding),
         Optional.ofNullable(validToYearExcluding),
         holidayDateAlgorithm,
@@ -141,6 +124,6 @@ class PolishHolidayDefinitionRuleBuilder {
         type,
         publicHoliday);
 
-    target.add(entry);
+    return rule;
   }
 }

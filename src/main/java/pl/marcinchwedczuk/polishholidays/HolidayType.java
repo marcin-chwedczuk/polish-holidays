@@ -1,5 +1,5 @@
 package pl.marcinchwedczuk.polishholidays;
 
-public enum PolishHolidayType {
+public enum HolidayType {
   NATIONAL, RELIGIOUS, UNOFFICIAL, OTHER
 }

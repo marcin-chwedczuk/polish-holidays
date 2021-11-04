@@ -5,16 +5,16 @@ import java.util.Objects;
 
 import org.assertj.core.api.AbstractAssert;
 
-import pl.marcinchwedczuk.polishholidays.PolishHoliday;
-import pl.marcinchwedczuk.polishholidays.PolishHolidayType;
+import pl.marcinchwedczuk.polishholidays.Holiday;
+import pl.marcinchwedczuk.polishholidays.HolidayType;
 
 public class PolishHolidayAssert
-    extends AbstractAssert<PolishHolidayAssert, PolishHoliday> {
-  public static PolishHolidayAssert assertThat(PolishHoliday actual) {
+    extends AbstractAssert<PolishHolidayAssert, Holiday> {
+  public static PolishHolidayAssert assertThat(Holiday actual) {
     return new PolishHolidayAssert(actual);
   }
 
-  public PolishHolidayAssert(PolishHoliday actual) {
+  public PolishHolidayAssert(Holiday actual) {
     super(actual, PolishHolidayAssert.class);
   }
 
@@ -48,7 +48,7 @@ public class PolishHolidayAssert
     return this;
   }
 
-  public PolishHolidayAssert hasType(PolishHolidayType expected) {
+  public PolishHolidayAssert hasType(HolidayType expected) {
     if (!Objects.equals(expected, actual.type())) {
       failWithMessage("Expected holiday to have type %s but was %s", expected,
           actual.type());

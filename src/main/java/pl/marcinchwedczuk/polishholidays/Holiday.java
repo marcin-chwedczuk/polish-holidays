@@ -5,18 +5,18 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public final class PolishHoliday {
+public final class Holiday {
   private final LocalDate date;
   private final String englishName;
   private final String polishName;
-  private final PolishHolidayType type;
+  private final HolidayType type;
   private final boolean publicHoliday;
 
-  public PolishHoliday(
+  public Holiday(
       LocalDate date,
       String englishName,
       String polishName,
-      PolishHolidayType type,
+      HolidayType type,
       boolean publicHoliday) {
     this.date = requireNonNull(date);
     this.englishName = requireNonNull(englishName);
@@ -29,7 +29,7 @@ public final class PolishHoliday {
     return date;
   }
 
-  public PolishHolidayType type() {
+  public HolidayType type() {
     return type;
   }
 
@@ -51,7 +51,7 @@ public final class PolishHoliday {
       return true;
     if (o == null || getClass() != o.getClass())
       return false;
-    PolishHoliday that = (PolishHoliday) o;
+    Holiday that = (Holiday) o;
     return publicHoliday == that.publicHoliday
         && Objects.equals(this.date, that.date)
         && Objects.equals(this.englishName, that.englishName)

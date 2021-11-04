@@ -1,7 +1,7 @@
 package pl.marcinchwedczuk.polishholidays;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static pl.marcinchwedczuk.polishholidays.PolishHolidayType.*;
+import static pl.marcinchwedczuk.polishholidays.HolidayType.*;
 import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.assertThat;
 
 import java.time.LocalDate;
@@ -11,15 +11,15 @@ import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class PolishHolidaysTest {
+public class HolidaysTest {
   @Test
   @Disabled("TODO")
   void throws_exception_for_years_earlier_than_2000() {}
 
   @Test
   public void returns_list_of_holidays() {
-    List<PolishHoliday> holidays = PolishHolidays.forYear(2021);
-    Iterator<PolishHoliday> iter = holidays.iterator();
+    List<Holiday> holidays = HolidayCalendars.forYear(2021);
+    Iterator<Holiday> iter = holidays.iterator();
 
     // Source: https://www.nbp.pl/homen.aspx?f=/en/onbp/organizacja/schedule.html
     // Source: Google Calendar for year 2021

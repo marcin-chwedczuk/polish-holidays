@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-class PolishHolidayTest {
+class HolidayTest {
   @Test
   public void equals_and_hashCode_work() {
     EqualsVerifier.simple()
-        .forClass(PolishHoliday.class)
+        .forClass(Holiday.class)
         .verify();
   }
 }

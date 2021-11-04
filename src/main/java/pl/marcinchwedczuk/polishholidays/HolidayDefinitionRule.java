@@ -6,7 +6,11 @@ import static pl.marcinchwedczuk.polishholidays.ArgumentChecks.checkNonEmptyRang
 
 import java.util.Optional;
 
-class PolishHolidayDefinitionRule {
+class HolidayDefinitionRule {
+  public static HolidayDefinitionRuleBuilder newBuilder() {
+    return new HolidayDefinitionRuleBuilder();
+  }
+
   private final Optional<Integer> validFromYearIncluding;
   private final Optional<Integer> validToYearExcluding;
 
@@ -14,16 +18,16 @@ class PolishHolidayDefinitionRule {
 
   private final String englishName;
   private final String polishName;
-  private final PolishHolidayType type;
+  private final HolidayType type;
   private final boolean publicHoliday;
 
-  PolishHolidayDefinitionRule(
+  HolidayDefinitionRule(
       Optional<Integer> validFromYearIncluding,
       Optional<Integer> validToYearExcluding,
       HolidayDateAlgorithm holidayDateAlgorithm,
       String englishName,
       String polishName,
-      PolishHolidayType type,
+      HolidayType type,
       boolean publicHoliday) {
     requireNonNull(validFromYearIncluding);
     requireNonNull(validToYearExcluding);
@@ -52,8 +56,8 @@ class PolishHolidayDefinitionRule {
     return fromYear <= year && year < toYear;
   }
 
-  PolishHoliday holidayInstanceForYear(int year) {
-    return new PolishHoliday(
+  Holiday holidayInstanceForYear(int year) {
+    return new Holiday(
         holidayDateAlgorithm.holidayDateForYear(year),
         englishName,
         polishName,
