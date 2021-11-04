@@ -9,7 +9,8 @@ class RelativeDateHolidayDateAlgorithmTest {
   @Test
   public void works_with_positive_offset() {
     RelativeDateHolidayDateAlgorithm algorithm =
-        new RelativeDateHolidayDateAlgorithm(new FixedDateHolidayDateAlgorithm(10, 20), 5);
+        new RelativeDateHolidayDateAlgorithm(
+            new FixedDateHolidayDateAlgorithm(10, 20), 5);
 
     LocalDate returnedDate = algorithm.holidayDateForYear(2000);
 
@@ -20,7 +21,8 @@ class RelativeDateHolidayDateAlgorithmTest {
   @Test
   public void works_with_negative_offset() {
     RelativeDateHolidayDateAlgorithm algorithm =
-        new RelativeDateHolidayDateAlgorithm(new FixedDateHolidayDateAlgorithm(10, 20), -5);
+        new RelativeDateHolidayDateAlgorithm(
+            new FixedDateHolidayDateAlgorithm(10, 20), -5);
 
     LocalDate returnedDate = algorithm.holidayDateForYear(2000);
 

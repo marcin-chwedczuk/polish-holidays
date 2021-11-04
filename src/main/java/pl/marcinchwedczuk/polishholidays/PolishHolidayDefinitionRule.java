@@ -17,8 +17,7 @@ class PolishHolidayDefinitionRule {
   private final PolishHolidayType type;
   private final boolean publicHoliday;
 
-  PolishHolidayDefinitionRule(
-      Optional<Integer> validFromYearIncluding,
+  PolishHolidayDefinitionRule(Optional<Integer> validFromYearIncluding,
       Optional<Integer> validToYearExcluding,
       HolidayDateAlgorithm holidayDateAlgorithm,
       String englishName,
@@ -27,7 +26,8 @@ class PolishHolidayDefinitionRule {
       boolean publicHoliday) {
     requireNonNull(validFromYearIncluding);
     requireNonNull(validToYearExcluding);
-    checkNonEmptyRange(validFromYearIncluding, validToYearExcluding, "Empty years range");
+    checkNonEmptyRange(validFromYearIncluding, validToYearExcluding,
+        "Empty years range");
     requireNonNull(holidayDateAlgorithm);
     checkNonBlankString(englishName, "English name cannot be empty.");
     checkNonBlankString(polishName, "Polish name cannot be empty");
@@ -51,11 +51,8 @@ class PolishHolidayDefinitionRule {
   }
 
   PolishHoliday holidayInstanceForYear(int year) {
-    return new PolishHoliday(
-        holidayDateAlgorithm.holidayDateForYear(year),
-        englishName,
-        polishName,
-        type,
-        publicHoliday);
+    return new PolishHoliday(holidayDateAlgorithm.holidayDateForYear(year),
+        englishName, polishName,
+        type, publicHoliday);
   }
 }

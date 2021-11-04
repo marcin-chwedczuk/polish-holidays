@@ -47,8 +47,10 @@ public final class PolishHoliday {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     PolishHoliday that = (PolishHoliday) o;
     return publicHoliday == that.publicHoliday
         && Objects.equals(this.date, that.date)

@@ -59,6 +59,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>${assertj.version}</version>
@@ -122,10 +128,9 @@
         <artifactId>spotless-maven-plugin</artifactId>
         <configuration>
           <java>
-            <googleJavaFormat>
-              <version>1.7</version>
-              <style>GOOGLE</style>
-            </googleJavaFormat>
+            <eclipse>
+              <file>${project.basedir}/eclipse-java-google-style.xml</file>
+            </eclipse>
           </java>
         </configuration>
         <executions>
@@ -143,7 +148,7 @@
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
         <configuration>
-          <efford>max</efford>
+          <effort>max</effort>
           <includeTests>true</includeTests>
           <failOnError>true</failOnError>
         </configuration>

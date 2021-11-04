@@ -8,6 +8,9 @@ class Optionals {
   private Optionals() {}
 
   public static <T> Stream<T> asStream(Optional<T> optional) {
-    return optional.map(Collections::singletonList).orElse(Collections.emptyList()).stream();
+    return optional
+        .map(Collections::singletonList)
+        .orElse(Collections.emptyList())
+        .stream();
   }
 }

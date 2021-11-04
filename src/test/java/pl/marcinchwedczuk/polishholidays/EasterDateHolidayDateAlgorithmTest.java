@@ -1,26 +1,34 @@
 package pl.marcinchwedczuk.polishholidays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.JavaTimeConversionPattern;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class EasterDateHolidayDateAlgorithmTest {
-  private final EasterDateHolidayDateAlgorithm algorithm = new EasterDateHolidayDateAlgorithm();
+  private final EasterDateHolidayDateAlgorithm easterDateAlgo =
+      new EasterDateHolidayDateAlgorithm();
 
-  @Test
-  public void works() {
-    // Easter dates taken from: https://pl.wikipedia.org/wiki/Wielkanoc
-    assertEquals(LocalDate.of(2000, 4, 23), algorithm.holidayDateForYear(2000));
+  // Easter dates taken from: https://pl.wikipedia.org/wiki/Wielkanoc
+  @ParameterizedTest
+  @CsvSource({"23/04/2000", "15/04/2001", "31/03/2002", "27/03/2005",
+      "04/04/2010", "09/04/2023"})
+  public void returnsEasterDate(
+      @JavaTimeConversionPattern("dd/MM/yyyy") LocalDate expectedEasterDate) {
+    int year = expectedEasterDate.getYear();
 
-    assertEquals(LocalDate.of(2001, 4, 15), algorithm.holidayDateForYear(2001));
+    assertThat(easterDateAlgo.holidayDateForYear(year))
+        .isEqualTo(expectedEasterDate);
 
-    assertEquals(LocalDate.of(2002, 3, 31), algorithm.holidayDateForYear(2002));
-
-    assertEquals(LocalDate.of(2005, 3, 27), algorithm.holidayDateForYear(2005));
-
-    assertEquals(LocalDate.of(2010, 4, 4), algorithm.holidayDateForYear(2010));
-
-    assertEquals(LocalDate.of(2023, 4, 9), algorithm.holidayDateForYear(2023));
+    new ArrayList<Integer>()
+        .stream()
+        .map(x -> x.toString())
+        .map(x -> x + ", " + x)
+        .collect(Collectors.toList());
   }
 }

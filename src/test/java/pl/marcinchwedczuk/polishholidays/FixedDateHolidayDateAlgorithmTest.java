@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 class FixedDateHolidayDateAlgorithmTest {
   @Test
   public void works() {
-    FixedDateHolidayDateAlgorithm algo = new FixedDateHolidayDateAlgorithm(11, 13);
+    FixedDateHolidayDateAlgorithm algo =
+        new FixedDateHolidayDateAlgorithm(11, 13);
 
     LocalDate returnedDate = algo.holidayDateForYear(2000);
 

@@ -6,7 +6,9 @@ class ArgumentChecks {
   private ArgumentChecks() {}
 
   public static void checkNonEmptyRange(
-      Optional<Integer> fromIncluding, Optional<Integer> toExcluding, String message) {
+      Optional<Integer> fromIncluding,
+      Optional<Integer> toExcluding,
+      String message) {
     if (fromIncluding.isPresent()
         && toExcluding.isPresent()
         && fromIncluding.get() >= toExcluding.get()) {

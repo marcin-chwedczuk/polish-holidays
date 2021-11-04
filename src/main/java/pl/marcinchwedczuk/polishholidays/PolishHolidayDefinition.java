@@ -1,16 +1,22 @@
 package pl.marcinchwedczuk.polishholidays;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 class PolishHolidayDefinition {
   public static PolishHolidayDefinition create(
       Consumer<PolishHolidayDefinitionRuleBuilderFactory> configureRules) {
-    List<PolishHolidayDefinitionRule> entries = new ArrayList<>();
 
-    configureRules.accept(() -> PolishHolidayDefinitionRuleBuilder.builder(entries));
+    List<PolishHolidayDefinitionRule> entries = new ArrayList<>();
+    configureRules
+        .accept(() -> PolishHolidayDefinitionRuleBuilder.builder(entries));
+
     if (entries.isEmpty()) {
-      throw new IllegalArgumentException("Cannot create definition without entries.");
+      throw new IllegalArgumentException(
+          "Cannot create definition without entries.");
     }
 
     return new PolishHolidayDefinition(Collections.unmodifiableList(entries));

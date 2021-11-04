@@ -1,16 +1,21 @@
 package pl.marcinchwedczuk.polishholidays;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static pl.marcinchwedczuk.polishholidays.PolishHolidayType.*;
 import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.assertThat;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 public class PolishHolidaysTest {
-  // TODO: Support only 2000+ years
+  @Test
+  void throws_exception_for_years_earlier_than_2000() {
+    // TODO
+  }
 
   @Test
   public void returns_list_of_holidays() {
@@ -101,6 +106,13 @@ public class PolishHolidaysTest {
         .hasDate(LocalDate.of(2021, 5, 26))
         .hasEnglishName("Mother's Day")
         .hasPolishName("Dzień Matki")
+        .hasType(UNOFFICIAL)
+        .isNotPublicHoliday();
+
+    assertThat(iter.next())
+        .hasDate(LocalDate.of(2021, 6, 1))
+        .hasEnglishName("Children's Day")
+        .hasPolishName("Dzień Dziecka")
         .hasType(UNOFFICIAL)
         .isNotPublicHoliday();
 
