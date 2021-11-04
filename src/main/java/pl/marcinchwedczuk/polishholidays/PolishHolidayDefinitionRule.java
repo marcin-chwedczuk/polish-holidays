@@ -17,7 +17,8 @@ class PolishHolidayDefinitionRule {
   private final PolishHolidayType type;
   private final boolean publicHoliday;
 
-  PolishHolidayDefinitionRule(Optional<Integer> validFromYearIncluding,
+  PolishHolidayDefinitionRule(
+      Optional<Integer> validFromYearIncluding,
       Optional<Integer> validToYearExcluding,
       HolidayDateAlgorithm holidayDateAlgorithm,
       String englishName,
@@ -40,6 +41,7 @@ class PolishHolidayDefinitionRule {
 
     this.englishName = englishName;
     this.polishName = polishName;
+
     this.type = type;
     this.publicHoliday = publicHoliday;
   }
@@ -51,8 +53,11 @@ class PolishHolidayDefinitionRule {
   }
 
   PolishHoliday holidayInstanceForYear(int year) {
-    return new PolishHoliday(holidayDateAlgorithm.holidayDateForYear(year),
-        englishName, polishName,
-        type, publicHoliday);
+    return new PolishHoliday(
+        holidayDateAlgorithm.holidayDateForYear(year),
+        englishName,
+        polishName,
+        type,
+        publicHoliday);
   }
 }

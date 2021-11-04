@@ -2,7 +2,9 @@ package pl.marcinchwedczuk.polishholidays.testutils;
 
 import java.time.LocalDate;
 import java.util.Objects;
+
 import org.assertj.core.api.AbstractAssert;
+
 import pl.marcinchwedczuk.polishholidays.PolishHoliday;
 import pl.marcinchwedczuk.polishholidays.PolishHolidayType;
 
@@ -18,7 +20,9 @@ public class PolishHolidayAssert
 
   public PolishHolidayAssert hasDate(LocalDate expected) {
     if (!Objects.equals(expected, actual.date())) {
-      failWithMessage("Expected holiday to have date %s but was %s", expected,
+      failWithMessage(
+          "Expected holiday to have date %s but was %s",
+          expected,
           actual.date());
     }
     return this;
@@ -26,7 +30,8 @@ public class PolishHolidayAssert
 
   public PolishHolidayAssert hasEnglishName(String expected) {
     if (!Objects.equals(expected, actual.englishName())) {
-      failWithMessage("Expected holiday to have english name '%s' but was '%s'",
+      failWithMessage(
+          "Expected holiday to have english name '%s' but was '%s'",
           expected,
           actual.englishName());
     }
@@ -35,7 +40,8 @@ public class PolishHolidayAssert
 
   public PolishHolidayAssert hasPolishName(String expected) {
     if (!Objects.equals(expected, actual.polishName())) {
-      failWithMessage("Expected holiday to have polish name '%s' but was '%s'",
+      failWithMessage(
+          "Expected holiday to have polish name '%s' but was '%s'",
           expected,
           actual.polishName());
     }

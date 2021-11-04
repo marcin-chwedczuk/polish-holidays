@@ -1,8 +1,9 @@
 package pl.marcinchwedczuk.polishholidays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 class RelativeDateHolidayDateAlgorithmTest {

@@ -1,7 +1,6 @@
 package pl.marcinchwedczuk.polishholidays;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static pl.marcinchwedczuk.polishholidays.PolishHolidayType.*;
 import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.assertThat;
 
@@ -9,13 +8,13 @@ import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class PolishHolidaysTest {
   @Test
-  void throws_exception_for_years_earlier_than_2000() {
-    // TODO
-  }
+  @Disabled("TODO")
+  void throws_exception_for_years_earlier_than_2000() {}
 
   @Test
   public void returns_list_of_holidays() {

@@ -7,7 +7,8 @@ public class RelativeDateHolidayDateAlgorithm implements HolidayDateAlgorithm {
   private final HolidayDateAlgorithm base;
   private final int offsetDays;
 
-  public RelativeDateHolidayDateAlgorithm(HolidayDateAlgorithm base,
+  public RelativeDateHolidayDateAlgorithm(
+      HolidayDateAlgorithm base,
       int offsetDays) {
     this.base = Objects.requireNonNull(base);
     this.offsetDays = offsetDays;
