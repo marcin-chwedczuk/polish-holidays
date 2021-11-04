@@ -3,8 +3,12 @@ package pl.marcinchwedczuk.polishholidays;
 import java.time.LocalDate;
 
 /**
- * Algorithm taken from: https://stackoverflow.com/a/26022891/1779504 Also see:
- * https://en.wikipedia.org/wiki/Date_of_Easter
+ * To understand this algorithm:
+ * 
+ * @see <a href="https://stackoverflow.com/a/26022891/1779504">StackOverflow question about
+ *      computing Easter date</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Date_of_Easter">Wikipedia articles of the algorithm
+ *      used</a>
  */
 public class EasterDateHolidayDateAlgorithm implements HolidayDateAlgorithm {
   @Override

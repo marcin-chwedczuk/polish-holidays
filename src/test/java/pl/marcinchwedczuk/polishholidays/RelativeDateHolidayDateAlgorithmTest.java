@@ -1,5 +1,6 @@
 package pl.marcinchwedczuk.polishholidays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
@@ -11,12 +12,11 @@ class RelativeDateHolidayDateAlgorithmTest {
   public void works_with_positive_offset() {
     RelativeDateHolidayDateAlgorithm algorithm =
         new RelativeDateHolidayDateAlgorithm(
-            new FixedDateHolidayDateAlgorithm(10, 20), 5);
+            new FixedDateHolidayDateAlgorithm(10, 20),
+            5);
 
-    LocalDate returnedDate = algorithm.holidayDateForYear(2000);
-
-    LocalDate expectedDate = LocalDate.of(2000, 10, 25);
-    assertEquals(expectedDate, returnedDate);
+    assertThat(algorithm.holidayDateForYear(2000))
+        .isEqualTo(LocalDate.of(2000, 10, 25));
   }
 
   @Test
@@ -25,9 +25,7 @@ class RelativeDateHolidayDateAlgorithmTest {
         new RelativeDateHolidayDateAlgorithm(
             new FixedDateHolidayDateAlgorithm(10, 20), -5);
 
-    LocalDate returnedDate = algorithm.holidayDateForYear(2000);
-
-    LocalDate expectedDate = LocalDate.of(2000, 10, 15);
-    assertEquals(expectedDate, returnedDate);
+    assertThat(algorithm.holidayDateForYear(2000))
+        .isEqualTo(LocalDate.of(2000, 10, 15));
   }
 }

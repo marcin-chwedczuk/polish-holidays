@@ -3,15 +3,13 @@ package pl.marcinchwedczuk.polishholidays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.JavaTimeConversionPattern;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class EasterDateHolidayDateAlgorithmTest {
-  private final EasterDateHolidayDateAlgorithm easterDateAlgo =
+  private final EasterDateHolidayDateAlgorithm easterDateAlgorithm =
       new EasterDateHolidayDateAlgorithm();
 
   // Easter dates taken from: https://pl.wikipedia.org/wiki/Wielkanoc
@@ -28,7 +26,7 @@ class EasterDateHolidayDateAlgorithmTest {
       @JavaTimeConversionPattern("dd/MM/yyyy") LocalDate expectedEasterDate) {
     int year = expectedEasterDate.getYear();
 
-    assertThat(easterDateAlgo.holidayDateForYear(year))
+    assertThat(easterDateAlgorithm.holidayDateForYear(year))
         .isEqualTo(expectedEasterDate);
   }
 }

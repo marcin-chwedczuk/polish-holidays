@@ -11,14 +11,15 @@ import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class HolidaysTest {
+public class HolidayCalendarsTest {
   @Test
   @Disabled("TODO")
   void throws_exception_for_years_earlier_than_2000() {}
 
   @Test
   public void returns_list_of_holidays() {
-    List<Holiday> holidays = HolidayCalendars.forYear(2021);
+    HolidayCalendar calendar = HolidayCalendars.createPolishHolidaysCalendar();
+    List<Holiday> holidays = calendar.findHolidaysForYear(2021);
     Iterator<Holiday> iter = holidays.iterator();
 
     // Source: https://www.nbp.pl/homen.aspx?f=/en/onbp/organizacja/schedule.html

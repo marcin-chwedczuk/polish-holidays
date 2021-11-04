@@ -8,6 +8,17 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HolidayCalendar {
+  public static HolidayCalendarBuilder newBuilder() {
+    return new HolidayCalendarBuilder(Collections.emptyList());
+  }
+
+  public static HolidayCalendarBuilder newBuilderWithPolishHolidaysDefined() {
+    List<HolidayDefinition> defaultHolidays =
+        new PolishHolidaysLibrary().defaultHolidaysDefinitions();
+
+    return new HolidayCalendarBuilder(defaultHolidays);
+  }
+
   private final List<HolidayDefinition> holidayDefinitions;
 
   HolidayCalendar(List<HolidayDefinition> holidayDefinitions) {
