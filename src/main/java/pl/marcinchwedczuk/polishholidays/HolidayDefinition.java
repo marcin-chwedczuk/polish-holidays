@@ -1,9 +1,6 @@
 package pl.marcinchwedczuk.polishholidays;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class HolidayDefinition {
   public static HolidayDefinitionBuilder newBuilder() {
@@ -13,7 +10,11 @@ public class HolidayDefinition {
   private final List<HolidayDefinitionRule> rules;
 
   HolidayDefinition(List<HolidayDefinitionRule> rules) {
-    this.rules = Collections.unmodifiableList(new ArrayList<>(rules));
+    this.rules = rules;
+  }
+
+  public Collection<HolidayDefinitionRule> rules() {
+    return Collections.unmodifiableList(rules);
   }
 
   public Optional<Holiday> maybeHolidayForYear(int year) {

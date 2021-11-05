@@ -1,19 +1,24 @@
 package pl.marcinchwedczuk.polishholidays;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-
 import static java.util.Objects.requireNonNull;
 
+import java.util.Collections;
+import java.util.List;
+
 public class HolidayDefinitionBuilder {
-  private final List<HolidayDefinitionRule> rules = new ArrayList<>();
+  private final List<HolidayDefinitionRule> rules;
+
+  private HolidayDefinitionBuilder(List<HolidayDefinitionRule> rules) {
+    this.rules = rules;
+  }
+
+  HolidayDefinitionBuilder() {
+    this(Collections.emptyList());
+  }
 
   public HolidayDefinitionBuilder defineRule(HolidayDefinitionRule rule) {
-    rules.add(requireNonNull(rule));
-    return this;
+    requireNonNull(rule);
+    return new HolidayDefinitionBuilder(ImmutableListUtils.add(rules, rule));
   }
 
   public HolidayDefinition build() {

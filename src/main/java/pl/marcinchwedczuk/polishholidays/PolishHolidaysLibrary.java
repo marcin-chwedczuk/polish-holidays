@@ -276,7 +276,7 @@ class PolishHolidaysLibrary {
                   .build())
           .build();
 
-  public List<HolidayDefinition> defaultHolidaysDefinitions() {
+  public List<HolidayDefinition> holidaysDefinitions() {
     return Arrays.asList(
         newYear,
         epiphany,
@@ -300,6 +300,10 @@ class PolishHolidaysLibrary {
         christmas,
         christmasSecondDay,
         newYearsEve);
+  }
+
+  public int validSinceYearIncluding() {
+    return 2000;
   }
 
   private static HolidayDateAlgorithm fixedAtMonthDay(int month, int day) {

@@ -1,25 +1,123 @@
 package pl.marcinchwedczuk.polishholidays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static pl.marcinchwedczuk.polishholidays.HolidayType.*;
 import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.assertThat;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class HolidayCalendarsTest {
   @Test
+  void throws_exception_for_years_when_calendar_is_not_defined() {
+    HolidayCalendar calendar = HolidayCalendars.createPolishHolidaysCalendar();
+
+    assertThat(calendar.validFromYearInclusive())
+        .hasValue(2000);
+
+    assertThat(calendar.validToYearExcluding())
+        .isEmpty();
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      calendar.holidaysForYear(1999);
+    });
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      calendar.holidaysForYear(1985);
+    });
+  }
+
+  @Test
+  void new_holidays_can_added_to_calendar() {
+    HolidayCalendar custom =
+        HolidayCalendar.newBuilderWithPolishHolidaysDefined()
+            .defineHoliday(
+                HolidayDefinition.newBuilder()
+                    .defineRule(HolidayDefinitionRule.newBuilder()
+                        // TODO: Rules should only have validity and algorithm, names should be on HolidayDefiniton
+                        .validFromYearIncluding(1990)
+                        .withEnglishName("Birthday")
+                        .withPolishName("Urodziny")
+                        .withType(OTHER)
+                        // TODO: Make it part of the builder e.g. withFixedDate(), withRelativeToEasterDate()
+                        .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 2))
+                        .build())
+                    .build())
+            .createCalendar();
+
+    List<Holiday> holidays = custom.holidaysForYear(2000);
+
+    // Old holiday is preserved
+    assertThat(holidays.get(0))
+        .hasDate(LocalDate.of(2000, 1, 1))
+        .hasEnglishName("New Year's Day")
+        .hasPolishName("Nowy Rok")
+        .hasType(OTHER)
+        .isPublicHoliday();
+
+    // New holiday
+    assertThat(holidays.get(1))
+        .hasDate(LocalDate.of(2000, 1, 2))
+        .hasEnglishName("Birthday")
+        .hasPolishName("Urodziny")
+        .hasType(OTHER)
+        .isNotPublicHoliday();
+  }
+
+  @Test
   @Disabled("TODO")
-  void throws_exception_for_years_earlier_than_2000() {}
+  void holiday_can_be_removed_from_the_calendar() {
+    HolidayCalendar custom =
+        HolidayCalendar.newBuilderWithPolishHolidaysDefined()
+            .removeAllHolidaysMatching(holidayDefinition -> {
+              return true;
+            })
+            .createCalendar();
+
+    // TODO: Make removal possible
+    assertFalse(true);
+  }
+
+  @Test
+  public void two_holidays_can_be_defined_on_the_same_day() {
+    HolidayCalendar custom =
+        HolidayCalendar.newBuilderWithPolishHolidaysDefined()
+            .defineHoliday(
+                HolidayDefinition.newBuilder()
+                    .defineRule(HolidayDefinitionRule.newBuilder()
+                        .validFromYearIncluding(1990)
+                        .withEnglishName("Test")
+                        .withPolishName("Test")
+                        .withType(OTHER)
+                        .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 1))
+                        .build())
+                    .build())
+            .createCalendar();
+
+    List<Holiday> holidays = custom.holidaysForYear(2000);
+
+
+    assertThat(holidays.get(0))
+        .hasDate(LocalDate.of(2000, 1, 1))
+        .hasEnglishName("New Year's Day");
+
+    assertThat(holidays.get(1))
+        .hasDate(LocalDate.of(2000, 1, 1))
+        .hasEnglishName("Test");
+  }
 
   @Test
   public void returns_list_of_holidays() {
     HolidayCalendar calendar = HolidayCalendars.createPolishHolidaysCalendar();
-    List<Holiday> holidays = calendar.findHolidaysForYear(2021);
+    List<Holiday> holidays = calendar.holidaysForYear(2021);
     Iterator<Holiday> iter = holidays.iterator();
 
     // Source: https://www.nbp.pl/homen.aspx?f=/en/onbp/organizacja/schedule.html
