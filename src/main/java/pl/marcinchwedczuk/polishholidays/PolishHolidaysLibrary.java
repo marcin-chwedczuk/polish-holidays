@@ -8,12 +8,12 @@ import java.util.List;
 class PolishHolidaysLibrary {
   private final HolidayDefinition newYear =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(1, 1))
+          .withEnglishName("New Year's Day")
+          .withPolishName("Nowy Rok")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(1, 1))
-                  .withEnglishName("New Year's Day")
-                  .withPolishName("Nowy Rok")
-                  .withType(OTHER)
+                  .withHolidayType(OTHER)
                   .markAsPublicHoliday()
                   .build())
           .build();
@@ -28,18 +28,15 @@ class PolishHolidaysLibrary {
    */
   private final HolidayDefinition epiphany =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(1, 6))
+          .withEnglishName("Epiphany")
+          .withPolishName("Święto Trzech Króli")
           .defineRule(HolidayDefinitionRule.newBuilder()
-              .usesAlgorithm(fixedAtMonthDay(1, 6))
-              .withEnglishName("Epiphany")
-              .withPolishName("Święto Trzech Króli")
-              .withType(RELIGIOUS)
+              .withHolidayType(RELIGIOUS)
               .validUntilYearExcluding(2011)
               .build())
           .defineRule(HolidayDefinitionRule.newBuilder()
-              .usesAlgorithm(fixedAtMonthDay(1, 6))
-              .withEnglishName("Epiphany")
-              .withPolishName("Święto Trzech Króli")
-              .withType(RELIGIOUS)
+              .withHolidayType(RELIGIOUS)
               .validFromYearIncluding(2011)
               .markAsPublicHoliday()
               .build())
@@ -47,232 +44,235 @@ class PolishHolidaysLibrary {
 
   private final HolidayDefinition valentinesDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(2, 14))
+          .withEnglishName("Valentine's Day")
+          .withPolishName("Walentynki")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(2, 14))
-                  .withEnglishName("Valentine's Day")
-                  .withPolishName("Walentynki")
                   // I don't think it's in religious category in Poland
-                  .withType(OTHER)
+                  .withHolidayType(OTHER)
                   .build())
           .build();
 
   private final HolidayDefinition goodFriday =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(relativeToEaster(-2))
+          .withEnglishName("Good Friday")
+          .withPolishName("Wielki Piątek")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(relativeToEaster(-2))
-                  .withEnglishName("Good Friday")
-                  .withPolishName("Wielki Piątek")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .build())
           .build();
 
   private final HolidayDefinition holySaturday =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(relativeToEaster(-1))
+          .withEnglishName("Holy Saturday")
+          .withPolishName("Wielka Sobota")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(relativeToEaster(-1))
-                  .withEnglishName("Holy Saturday")
-                  .withPolishName("Wielka Sobota")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .build())
           .build();
 
   private final HolidayDefinition easter =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(new EasterDateHolidayDateAlgorithm())
+          .withEnglishName("Easter")
+          .withPolishName("Wielkanoc")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(new EasterDateHolidayDateAlgorithm())
-                  .withEnglishName("Easter")
-                  .withPolishName("Wielkanoc")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition easterMonday =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(relativeToEaster(1))
+          .withEnglishName("Easter Monday")
+          .withPolishName("Poniedziałek Wielkanocny")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(relativeToEaster(1))
-                  .withEnglishName("Easter Monday")
-                  .withPolishName("Poniedziałek Wielkanocny")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition labourDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(5, 1))
+          .withEnglishName("Labour Day")
+          .withPolishName("Święto Pracy")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(5, 1))
-                  .withEnglishName("Labour Day")
-                  .withPolishName("Święto Pracy")
-                  .withType(OTHER)
+                  .withHolidayType(OTHER)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition flagDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(5, 2))
+          .withEnglishName("Polish National Flag Day")
+          .withPolishName("Dzień Flagi Rzeczypospolitej Polskiej")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(5, 2))
-                  .withEnglishName("Polish National Flag Day")
-                  .withPolishName("Dzień Flagi Rzeczypospolitej Polskiej")
-                  .withType(NATIONAL)
+                  .withHolidayType(NATIONAL)
                   .build())
           .build();
 
   private final HolidayDefinition constitutionDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(5, 3))
+          .withEnglishName("Constitution Day")
+          .withPolishName("Święto Konstytucji Trzeciego Maja")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(5, 3))
-                  .withEnglishName("Constitution Day")
-                  .withPolishName("Święto Konstytucji Trzeciego Maja")
-                  .withType(NATIONAL)
+                  .withHolidayType(NATIONAL)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition whiteSunday =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(relativeToEaster(49))
+          .withEnglishName("White Sunday")
+          .withPolishName("Zielone Świątki")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(relativeToEaster(49))
-                  .withEnglishName("White Sunday")
-                  .withPolishName("Zielone Świątki")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition mothersDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(5, 26))
+          .withEnglishName("Mother's Day")
+          .withPolishName("Dzień Matki")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(5, 26))
-                  .withEnglishName("Mother's Day")
-                  .withPolishName("Dzień Matki")
-                  .withType(UNOFFICIAL)
+                  .withHolidayType(UNOFFICIAL)
                   .build())
           .build();
 
   private final HolidayDefinition childrensDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(6, 1))
+          .withEnglishName("Children's Day")
+          .withPolishName("Dzień Dziecka")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(6, 1))
-                  .withEnglishName("Children's Day")
-                  .withPolishName("Dzień Dziecka")
-                  .withType(UNOFFICIAL)
+                  .withHolidayType(UNOFFICIAL)
                   .build())
           .build();
 
   private final HolidayDefinition corpusChristi =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(relativeToEaster(60))
+          .withEnglishName("Feast of Corpus Christi")
+          .withPolishName("Boże Ciało")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(relativeToEaster(60))
-                  .withEnglishName("Feast of Corpus Christi")
-                  .withPolishName("Boże Ciało")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition fathersDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(6, 23))
+          .withEnglishName("Father's Day")
+          .withPolishName("Dzień Ojca")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(6, 23))
-                  .withEnglishName("Father's Day")
-                  .withPolishName("Dzień Ojca")
-                  .withType(UNOFFICIAL)
+                  .withHolidayType(UNOFFICIAL)
                   .build())
           .build();
 
   private final HolidayDefinition assumptionOfMary =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(8, 15))
+          .withEnglishName("Assumption of Mary")
+          .withPolishName("Wniebowzięcie Najświętszej Maryi Panny")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(8, 15))
-                  .withEnglishName("Assumption of Mary")
-                  .withPolishName("Wniebowzięcie Najświętszej Maryi Panny")
-                  .withType(RELIGIOUS)
+
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition allSaintsDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(11, 1))
+          .withEnglishName("All Saints' Day")
+          .withPolishName("Wszystkich Świętych")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(11, 1))
-                  .withEnglishName("All Saints' Day")
-                  .withPolishName("Wszystkich Świętych").withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition independenceDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(11, 11))
+          .withEnglishName("National Independence Day")
+          .withPolishName("Dzień Niepodległości")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(11, 11))
-                  .withEnglishName("National Independence Day")
-                  .withPolishName("Dzień Niepodległości")
-                  .withType(NATIONAL)
+                  .withHolidayType(NATIONAL)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition christmasEve =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(12, 24))
+          .withEnglishName("Christmas Eve")
+          .withPolishName("Wigilia Bożego Narodzenia")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(12, 24))
-                  .withEnglishName("Christmas Eve")
-                  .withPolishName("Wigilia Bożego Narodzenia")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .build())
           .build();
 
   private final HolidayDefinition christmas =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(12, 25))
+          .withEnglishName("Christmas")
+          .withPolishName("Boże Narodzenie")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(12, 25))
-                  .withEnglishName("Christmas")
-                  .withPolishName("Boże Narodzenie")
-                  .withType(RELIGIOUS)
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition christmasSecondDay =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(12, 26))
+          .withEnglishName("Christmas")
+          .withPolishName("Boże Narodzenie")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(12, 26))
-                  .withEnglishName("Christmas")
-                  .withPolishName("Boże Narodzenie")
-                  .withType(RELIGIOUS)
+
+                  .withHolidayType(RELIGIOUS)
                   .markAsPublicHoliday()
                   .build())
           .build();
 
   private final HolidayDefinition newYearsEve =
       HolidayDefinition.newBuilder()
+          .usesAlgorithm(fixedAtMonthDay(12, 31))
+          .withEnglishName("New Year's Eve")
+          .withPolishName("Sylwester")
           .defineRule(
               HolidayDefinitionRule.newBuilder()
-                  .usesAlgorithm(fixedAtMonthDay(12, 31))
-                  .withEnglishName("New Year's Eve")
-                  .withPolishName("Sylwester")
-                  .withType(UNOFFICIAL)
+                  .withHolidayType(UNOFFICIAL)
                   .build())
           .build();
 

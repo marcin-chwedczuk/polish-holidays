@@ -41,14 +41,14 @@ public class HolidayCalendarsTest {
         HolidayCalendar.newBuilderWithPolishHolidaysDefined()
             .defineHoliday(
                 HolidayDefinition.newBuilder()
+                    .withEnglishName("Birthday")
+                    .withPolishName("Urodziny")
+                    .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 2))
                     .defineRule(HolidayDefinitionRule.newBuilder()
                         // TODO: Rules should only have validity and algorithm, names should be on HolidayDefiniton
                         .validFromYearIncluding(1990)
-                        .withEnglishName("Birthday")
-                        .withPolishName("Urodziny")
-                        .withType(OTHER)
+                        .withHolidayType(OTHER)
                         // TODO: Make it part of the builder e.g. withFixedDate(), withRelativeToEasterDate()
-                        .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 2))
                         .build())
                     .build())
             .createCalendar();
@@ -92,12 +92,12 @@ public class HolidayCalendarsTest {
         HolidayCalendar.newBuilderWithPolishHolidaysDefined()
             .defineHoliday(
                 HolidayDefinition.newBuilder()
+                    .withEnglishName("Test")
+                    .withPolishName("Test")
+                    .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 1))
                     .defineRule(HolidayDefinitionRule.newBuilder()
                         .validFromYearIncluding(1990)
-                        .withEnglishName("Test")
-                        .withPolishName("Test")
-                        .withType(OTHER)
-                        .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 1))
+                        .withHolidayType(OTHER)
                         .build())
                     .build())
             .createCalendar();
