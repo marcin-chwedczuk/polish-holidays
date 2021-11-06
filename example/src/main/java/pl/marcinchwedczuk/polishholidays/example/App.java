@@ -1,11 +1,25 @@
 package pl.marcinchwedczuk.polishholidays.example;
 
 
+import org.fusesource.jansi.AnsiConsole;
+import pl.marcinchwedczuk.polishholidays.HolidayCalendar;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
+import static org.fusesource.jansi.Ansi.*;
+import static org.fusesource.jansi.Ansi.Color.*;
+
 public class App {
+    private static HolidayCalendar holidayCalendar;
+
     public static void main(String[] args) {
+        AnsiConsole.systemInstall();
+
+        holidayCalendar = HolidayCalendar
+                .newBuilderWithPolishHolidaysDefined()
+                .createCalendar();
+
         LocalDate now = LocalDate.now();
 
         for (int i = 1; i <= 12; i++) {
@@ -24,7 +38,7 @@ public class App {
         int currentDayOfWeek = 0;
         openDayRow();
         while (toInt(curr.getDayOfWeek()) != currentDayOfWeek) {
-            printDayBox(null);
+            printEmptyDayBox();
             currentDayOfWeek++;
         }
 
@@ -34,7 +48,8 @@ public class App {
                 openNewRow = false;
                 openDayRow();
             }
-            printDayBox(curr.getDayOfMonth());
+
+            printDayBox(curr);
 
             currentDayOfWeek = (currentDayOfWeek + 1) % 7;
             curr = curr.plusDays(1);
@@ -45,9 +60,10 @@ public class App {
             }
         }
 
+        // Print empty dates at the end
         if (!openNewRow) {
             while (currentDayOfWeek != 0) {
-                printDayBox(null);
+                printEmptyDayBox();
                 currentDayOfWeek = (currentDayOfWeek + 1) % 7;
             }
             closeDayRow();
@@ -57,19 +73,31 @@ public class App {
     }
 
     private static void openDayRow() {
-        System.out.print("*");
+        System.out.print(" ");
     }
 
-    private static void printDayBox(Integer day) {
-        if (day == null) {
-            System.out.print("  |");
+    private static void printEmptyDayBox() {
+        System.out.print("   ");
+    }
+
+    private static void printDayBox(LocalDate day) {
+        boolean isHoliday = holidayCalendar
+                .holidaysForYear(day.getYear()).stream()
+                .anyMatch(holiday -> holiday.date().equals(day)
+                    && holiday.isPublicHoliday());
+        if (isHoliday) {
+            System.out.print(ansi()
+                    .bgRed()
+                    .a(String.format("%2d", day.getDayOfMonth()))
+                    .bgDefault()
+                    .a(" "));
         } else {
-            System.out.format("%2d|", day);
+            System.out.format("%2d ", day.getDayOfMonth());
         }
     }
 
     private static void closeDayRow() {
-        System.out.println("*");
+        System.out.println("");
     }
 
     private static int toInt(DayOfWeek dayOfWeek) {
