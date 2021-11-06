@@ -2,6 +2,7 @@ package pl.marcinchwedczuk.polishholidays;
 
 import static pl.marcinchwedczuk.polishholidays.EffectiveTimespan.fromYearOnward;
 import static pl.marcinchwedczuk.polishholidays.HolidayType.*;
+import static pl.marcinchwedczuk.polishholidays.HolidayDateAlgorithms.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -237,14 +238,5 @@ class PolishHolidaysLibrary {
 
   public int validSinceYearIncluding() {
     return 2000;
-  }
-
-  private static HolidayDateAlgorithm fixedAtMonthDay(int month, int day) {
-    return new FixedDateHolidayDateAlgorithm(month, day);
-  }
-
-  private static HolidayDateAlgorithm relativeToEaster(int offsetDays) {
-    return new RelativeDateHolidayDateAlgorithm(
-        new EasterDateHolidayDateAlgorithm(), offsetDays);
   }
 }

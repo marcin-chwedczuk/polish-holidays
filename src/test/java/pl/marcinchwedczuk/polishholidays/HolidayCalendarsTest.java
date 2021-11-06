@@ -3,6 +3,7 @@ package pl.marcinchwedczuk.polishholidays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static pl.marcinchwedczuk.polishholidays.HolidayDateAlgorithms.fixedAtMonthDay;
 import static pl.marcinchwedczuk.polishholidays.HolidayType.*;
 import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.assertThat;
 
@@ -10,38 +11,40 @@ import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class HolidayCalendarsTest {
   @Test
-  void throws_exception_for_years_when_calendar_is_not_defined() {
-    HolidayCalendar calendar = HolidayCalendars.createPolishHolidaysCalendar();
+  void throws_exception_for_years_for_which_calendar_is_not_defined() {
+    HolidayCalendar calendar = HolidayCalendar.newBuilder()
+        .withValidFromYearIncluding(2000)
+        .withValidToYearExcluding(2005)
+        .createCalendar();
 
     assertThat(calendar.validFromYearInclusive())
         .hasValue(2000);
 
     assertThat(calendar.validToYearExcluding())
-        .isEmpty();
+        .hasValue(2005);
 
     assertThrows(IllegalArgumentException.class, () -> {
       calendar.holidaysForYear(1999);
     });
 
     assertThrows(IllegalArgumentException.class, () -> {
-      calendar.holidaysForYear(1985);
+      calendar.holidaysForYear(2006);
     });
   }
 
   @Test
-  void new_holidays_can_added_to_calendar() {
+  void new_holidays_can_be_added_to_calendar() {
     HolidayCalendar custom =
         HolidayCalendar.newBuilderWithPolishHolidaysDefined()
             .defineHoliday(
                 HolidayDefinition.newBuilder()
                     .withEnglishName("Birthday")
                     .withPolishName("Urodziny")
-                    .withDate(new FixedDateHolidayDateAlgorithm(1, 2))
+                    .withDate(fixedAtMonthDay(1, 2))
                     .withHolidayType(OTHER)
                     .build())
             .createCalendar();
@@ -50,11 +53,7 @@ public class HolidayCalendarsTest {
 
     // Old holiday is preserved
     assertThat(holidays.get(0))
-        .hasDate(LocalDate.of(2000, 1, 1))
-        .hasEnglishName("New Year's Day")
-        .hasPolishName("Nowy Rok")
-        .hasType(OTHER)
-        .isPublicHoliday();
+        .hasEnglishName("New Year's Day");
 
     // New holiday
     assertThat(holidays.get(1))
@@ -66,7 +65,7 @@ public class HolidayCalendarsTest {
   }
 
   @Test
-  void holiday_can_be_removed_from_the_calendar() {
+  void holiday_can_be_removed_from_calendar() {
     HolidayCalendar custom =
         HolidayCalendar.newBuilderWithPolishHolidaysDefined()
             .removeAllHolidaysMatching(definition -> definition
@@ -75,24 +74,23 @@ public class HolidayCalendarsTest {
 
     Holiday firstHoliday = custom.holidaysForYear(2000).get(0);
     assertThat(firstHoliday)
-        .doesNotHaveName("New Year's Day");
+        .hasEnglishName("Epiphany");
   }
 
   @Test
-  public void two_holidays_can_be_defined_on_the_same_day() {
+  void two_holidays_can_be_defined_on_the_same_day() {
     HolidayCalendar custom =
         HolidayCalendar.newBuilderWithPolishHolidaysDefined()
             .defineHoliday(
                 HolidayDefinition.newBuilder()
                     .withEnglishName("Test")
                     .withPolishName("Test")
-                    .withDate(new FixedDateHolidayDateAlgorithm(1, 1))
+                    .withDate(fixedAtMonthDay(1, 1))
                     .withHolidayType(OTHER)
                     .build())
             .createCalendar();
 
     List<Holiday> holidays = custom.holidaysForYear(2000);
-
 
     assertThat(holidays.get(0))
         .hasDate(LocalDate.of(2000, 1, 1))
@@ -104,7 +102,94 @@ public class HolidayCalendarsTest {
   }
 
   @Test
-  public void returns_list_of_holidays() {
+  void holiday_is_only_returned_for_its_effective_timespan() {
+    HolidayCalendar calendar =
+        HolidayCalendar.newBuilder()
+            .defineHoliday(
+                HolidayDefinition.newBuilder()
+                    .withEffectiveTimespan(
+                        EffectiveTimespan.fromYearsRange(2000, 2005))
+                    .withEnglishName("Test")
+                    .withPolishName("Test")
+                    .withDate(fixedAtMonthDay(1, 1))
+                    .withHolidayType(OTHER)
+                    .build())
+            .createCalendar();
+
+    assertThat(calendar.holidaysForYear(1999))
+        .isEmpty();
+
+    assertThat(calendar.holidaysForYear(2000))
+        .hasSize(1);
+
+    assertThat(calendar.holidaysForYear(2004))
+        .hasSize(1);
+
+    // range end is excluding
+    assertThat(calendar.holidaysForYear(2005))
+        .isEmpty();
+  }
+
+  @Test
+  void overrides_work() {
+    HolidayCalendar calendar =
+        HolidayCalendar.newBuilder()
+            .defineHoliday(
+                HolidayDefinition.newBuilder()
+                    .withEffectiveTimespan(
+                        EffectiveTimespan.fromYearsRange(2000, 2005))
+                    .withEnglishName("Test")
+                    .withPolishName("Test")
+                    .withDate(fixedAtMonthDay(1, 1))
+                    .withHolidayType(OTHER)
+                    .addOverride(HolidayDefinitionOverride.newBuilder()
+                        .withEffectiveTimespan(
+                            EffectiveTimespan.forSingleYear(2000))
+                        .withOverride(definition -> definition
+                            .withEnglishName("Test2000"))
+                        .build())
+                    .addOverride(HolidayDefinitionOverride.newBuilder()
+                        .withEffectiveTimespan(
+                            EffectiveTimespan.fromYearsRange(2001, 2004))
+                        .withOverride(
+                            definition -> definition
+                                .withEnglishName("TestXXX")
+                                .withPolishName("TestYYY"))
+                        .build())
+                    .build())
+            .createCalendar();
+
+    assertThat(calendar.holidaysForYear(2000).get(0))
+        .hasDate(LocalDate.of(2000, 1, 1))
+        .hasEnglishName("Test2000")
+        .hasPolishName("Test")
+        .hasType(OTHER)
+        .isNotPublicHoliday();
+
+    assertThat(calendar.holidaysForYear(2001).get(0))
+        .hasDate(LocalDate.of(2001, 1, 1))
+        .hasEnglishName("TestXXX")
+        .hasPolishName("TestYYY")
+        .hasType(OTHER)
+        .isNotPublicHoliday();
+
+    assertThat(calendar.holidaysForYear(2003).get(0))
+        .hasDate(LocalDate.of(2003, 1, 1))
+        .hasEnglishName("TestXXX")
+        .hasPolishName("TestYYY")
+        .hasType(OTHER)
+        .isNotPublicHoliday();
+
+    assertThat(calendar.holidaysForYear(2004).get(0))
+        .hasDate(LocalDate.of(2004, 1, 1))
+        .hasEnglishName("Test")
+        .hasPolishName("Test")
+        .hasType(OTHER)
+        .isNotPublicHoliday();
+  }
+
+  @Test
+  void returns_list_of_holidays() {
     HolidayCalendar calendar = HolidayCalendars.createPolishHolidaysCalendar();
     List<Holiday> holidays = calendar.holidaysForYear(2021);
     Iterator<Holiday> iter = holidays.iterator();

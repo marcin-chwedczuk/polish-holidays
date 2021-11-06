@@ -11,6 +11,10 @@ public class EffectiveTimespan {
     return new EffectiveTimespan(Optional.empty(), Optional.empty());
   }
 
+  public static EffectiveTimespan forSingleYear(int year) {
+    return new EffectiveTimespan(Optional.of(year), Optional.of(year + 1));
+  }
+
   public static EffectiveTimespan fromYearOnward(int fromYearIncluding) {
     return new EffectiveTimespan(
         Optional.of(fromYearIncluding),
