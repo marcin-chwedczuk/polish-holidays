@@ -3,21 +3,33 @@ package pl.marcinchwedczuk.polishholidays.example;
 
 import org.fusesource.jansi.AnsiConsole;
 import pl.marcinchwedczuk.polishholidays.HolidayCalendar;
+import pl.marcinchwedczuk.polishholidays.HolidayDateAlgorithms;
+import pl.marcinchwedczuk.polishholidays.HolidayDefinition;
+import pl.marcinchwedczuk.polishholidays.HolidayType;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
-import static org.fusesource.jansi.Ansi.*;
-import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class App {
     private static HolidayCalendar holidayCalendar;
 
+    // Execute `mvn compile exec:java` to run.
     public static void main(String[] args) {
         AnsiConsole.systemInstall();
 
         holidayCalendar = HolidayCalendar
                 .newBuilderWithPolishHolidaysDefined()
+                // Let's add Pi Day
+                .defineHoliday(HolidayDefinition.newBuilder()
+                        .withDate(HolidayDateAlgorithms.fixedAtMonthDay(3, 14))
+                        .withPolishName("Dzień Liczby PI")
+                        .withEnglishName("Pi Day")
+                        .withHolidayType(HolidayType.UNOFFICIAL)
+                        .build())
                 .createCalendar();
 
         LocalDate now = LocalDate.now();
@@ -30,6 +42,7 @@ public class App {
 
     private static void printMonth(int month, int year) {
         LocalDate curr = LocalDate.of(year, month, 1);
+        printMonthName(curr);
 
         // Sun | Mon | Tue | Wed | Thu | Fri | Sat
         // DayOfWeek enum starts on Monday, we need it to start on Sunday
@@ -72,6 +85,11 @@ public class App {
         // TODO:
     }
 
+    private static void printMonthName(LocalDate date) {
+        String monthName = date.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        System.out.println(monthName);
+    }
+
     private static void openDayRow() {
         System.out.print(" ");
     }
@@ -81,13 +99,23 @@ public class App {
     }
 
     private static void printDayBox(LocalDate day) {
-        boolean isHoliday = holidayCalendar
+        boolean isPublicHoliday = holidayCalendar
                 .holidaysForYear(day.getYear()).stream()
                 .anyMatch(holiday -> holiday.date().equals(day)
-                    && holiday.isPublicHoliday());
-        if (isHoliday) {
+                        && holiday.isPublicHoliday());
+        boolean isAnyHoliday = holidayCalendar
+                .holidaysForYear(day.getYear()).stream()
+                .anyMatch(holiday -> holiday.date().equals(day));
+
+        if (isPublicHoliday) {
             System.out.print(ansi()
                     .bgRed()
+                    .a(String.format("%2d", day.getDayOfMonth()))
+                    .bgDefault()
+                    .a(" "));
+        } else if (isAnyHoliday) {
+            System.out.print(ansi()
+                    .bgCyan()
                     .a(String.format("%2d", day.getDayOfMonth()))
                     .bgDefault()
                     .a(" "));
