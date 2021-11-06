@@ -38,6 +38,15 @@ public class PolishHolidayAssert
     return this;
   }
 
+  public PolishHolidayAssert doesNotHaveName(String expected) {
+    if (Objects.equals(expected, actual.englishName())) {
+      failWithMessage(
+          "Expected holiday to NOT have english name '%s'",
+          expected);
+    }
+    return this;
+  }
+
   public PolishHolidayAssert hasPolishName(String expected) {
     if (!Objects.equals(expected, actual.polishName())) {
       failWithMessage(

@@ -10,35 +10,47 @@ public class HolidayDefinition {
     return new HolidayDefinitionBuilder();
   }
 
+  private final EffectiveTimespan holidayEffectiveTimespan;
   private final HolidayDateAlgorithm holidayDateAlgorithm;
 
   private final String holidayEnglishName;
-  private final String hoidayPolishName;
+  private final String holidayPolishName;
 
-  private final List<HolidayDefinitionRule> rules;
+  private final HolidayType holidayType;
+  private final boolean publicHoliday;
+
+  private final List<HolidayDefinitionOverride> rules;
 
   HolidayDefinition(
+      EffectiveTimespan holidayEffectiveTimespan,
       HolidayDateAlgorithm holidayDateAlgorithm,
       String holidayEnglishName,
-      String hoidayPolishName,
-      List<HolidayDefinitionRule> rules) {
+      String holidayPolishName,
+      HolidayType holidayType,
+      boolean isPublicHoliday,
+      List<HolidayDefinitionOverride> rules) {
+
+    requireNonNull(holidayEffectiveTimespan);
     requireNonNull(holidayDateAlgorithm);
     checkNonBlankString(holidayEnglishName, "English name cannot be empty.");
-    checkNonBlankString(hoidayPolishName, "Polish name cannot be empty");
-
-    // TODO: Add arg checker for this
-    if (rules.isEmpty()) {
-      throw new IllegalArgumentException(
-          "Cannot create definition without entries.");
-    }
+    checkNonBlankString(holidayPolishName, "Polish name cannot be empty.");
+    requireNonNull(holidayType);
+    requireNonNull(rules);
 
     // TODO: Check rules not overlapping
 
     // TODO: Other checks
+    this.holidayEffectiveTimespan = holidayEffectiveTimespan;
     this.holidayDateAlgorithm = holidayDateAlgorithm;
     this.holidayEnglishName = holidayEnglishName;
-    this.hoidayPolishName = hoidayPolishName;
+    this.holidayPolishName = holidayPolishName;
+    this.holidayType = holidayType;
+    this.publicHoliday = isPublicHoliday;
     this.rules = rules;
+  }
+
+  public EffectiveTimespan holidayEffectiveTimespan() {
+    return this.holidayEffectiveTimespan;
   }
 
   public HolidayDateAlgorithm holidayDateAlgorithm() {
@@ -50,22 +62,50 @@ public class HolidayDefinition {
   }
 
   public String holidayPolishName() {
-    return this.hoidayPolishName;
+    return this.holidayPolishName;
   }
 
-  public Collection<HolidayDefinitionRule> rules() {
+  public HolidayType holidayType() {
+    return this.holidayType;
+  }
+
+  public boolean isPublicHoliday() {
+    return publicHoliday;
+  }
+
+  public Collection<HolidayDefinitionOverride> rules() {
     return Collections.unmodifiableList(rules);
   }
 
   public Optional<Holiday> maybeHolidayForYear(int year) {
-    return rules.stream()
+    if (!holidayEffectiveTimespan.includesYear(year)) {
+      return Optional.empty();
+    }
+
+    Optional<HolidayDefinitionOverride> maybeOverride = rules.stream()
         .filter(rule -> rule.isInEffectForYear(year))
-        .findFirst()
-        .map(rule -> new Holiday(
-            holidayDateAlgorithm.holidayDateForYear(year),
-            holidayEnglishName,
-            hoidayPolishName,
-            rule.holidayType(),
-            rule.isPublicHoliday()));
+        .findFirst();
+
+    HolidayDefinition definitionWithOverrides = maybeOverride
+        .map(override -> override.apply(this))
+        .orElse(this);
+
+    return Optional.of(new Holiday(
+        definitionWithOverrides.holidayDateAlgorithm.holidayDateForYear(year),
+        definitionWithOverrides.holidayEnglishName,
+        definitionWithOverrides.holidayPolishName,
+        definitionWithOverrides.holidayType,
+        definitionWithOverrides.publicHoliday));
+  }
+
+  public HolidayDefinitionBuilder toBuilder() {
+    return new HolidayDefinitionBuilder(
+        this.holidayEffectiveTimespan,
+        this.holidayDateAlgorithm,
+        this.holidayEnglishName,
+        this.holidayPolishName,
+        this.holidayType,
+        this.publicHoliday,
+        this.rules);
   }
 }

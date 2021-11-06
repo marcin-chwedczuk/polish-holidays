@@ -1,68 +1,35 @@
 package pl.marcinchwedczuk.polishholidays;
 
-import java.util.List;
-import java.util.Optional;
-
 public class HolidayDefinitionRuleBuilder {
-  private final Integer validFromYearIncluding;
-  private final Integer validToYearExcluding;
-
-  private final HolidayType type;
-  private final boolean publicHoliday;
+  private final EffectiveTimespan effectiveTimespan;
+  private final HolidayDefinitionOverrideLogic override;
 
   private HolidayDefinitionRuleBuilder(
-      Integer validFromYearIncluding,
-      Integer validToYearExcluding,
-      HolidayType type,
-      boolean publicHoliday) {
-    this.validFromYearIncluding = validFromYearIncluding;
-    this.validToYearExcluding = validToYearExcluding;
-    this.type = type;
-    this.publicHoliday = publicHoliday;
+      EffectiveTimespan effectiveTimespan,
+      HolidayDefinitionOverrideLogic override) {
+    this.effectiveTimespan = effectiveTimespan;
+    this.override = override;
   }
 
   HolidayDefinitionRuleBuilder() {
-    this(null, null, null, false);
+    this(null, null);
   }
 
-  public HolidayDefinitionRuleBuilder validFromYearIncluding(int year) {
+  public HolidayDefinitionRuleBuilder withEffectiveTimespan(
+      EffectiveTimespan effectiveTimespan) {
     return new HolidayDefinitionRuleBuilder(
-        year,
-        validToYearExcluding,
-        type,
-        publicHoliday);
+        effectiveTimespan,
+        this.override);
   }
 
-  public HolidayDefinitionRuleBuilder validUntilYearExcluding(int year) {
+  public HolidayDefinitionRuleBuilder withOverride(
+      HolidayDefinitionOverrideLogic logic) {
     return new HolidayDefinitionRuleBuilder(
-        validFromYearIncluding,
-        year,
-        type,
-        publicHoliday);
+        this.effectiveTimespan,
+        logic);
   }
 
-
-  public HolidayDefinitionRuleBuilder withHolidayType(HolidayType type) {
-    return new HolidayDefinitionRuleBuilder(
-        validFromYearIncluding,
-        validToYearExcluding,
-        type,
-        publicHoliday);
-  }
-
-  public HolidayDefinitionRuleBuilder markAsPublicHoliday() {
-    return new HolidayDefinitionRuleBuilder(
-        validFromYearIncluding,
-        validToYearExcluding,
-        type,
-        true);
-  }
-
-  public HolidayDefinitionRule build() {
-    return new HolidayDefinitionRule(
-        Optional.ofNullable(validFromYearIncluding),
-        Optional.ofNullable(validToYearExcluding),
-        type,
-        publicHoliday);
+  public HolidayDefinitionOverride build() {
+    return new HolidayDefinitionOverride(effectiveTimespan, override);
   }
 }

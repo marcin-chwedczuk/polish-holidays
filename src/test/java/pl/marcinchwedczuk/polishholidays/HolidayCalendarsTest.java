@@ -9,9 +9,7 @@ import static pl.marcinchwedczuk.polishholidays.testutils.PolishHolidayAssert.as
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -43,13 +41,8 @@ public class HolidayCalendarsTest {
                 HolidayDefinition.newBuilder()
                     .withEnglishName("Birthday")
                     .withPolishName("Urodziny")
-                    .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 2))
-                    .defineRule(HolidayDefinitionRule.newBuilder()
-                        // TODO: Rules should only have validity and algorithm, names should be on HolidayDefiniton
-                        .validFromYearIncluding(1990)
-                        .withHolidayType(OTHER)
-                        // TODO: Make it part of the builder e.g. withFixedDate(), withRelativeToEasterDate()
-                        .build())
+                    .withDate(new FixedDateHolidayDateAlgorithm(1, 2))
+                    .withHolidayType(OTHER)
                     .build())
             .createCalendar();
 
@@ -73,17 +66,16 @@ public class HolidayCalendarsTest {
   }
 
   @Test
-  @Disabled("TODO")
   void holiday_can_be_removed_from_the_calendar() {
     HolidayCalendar custom =
         HolidayCalendar.newBuilderWithPolishHolidaysDefined()
-            .removeAllHolidaysMatching(holidayDefinition -> {
-              return true;
-            })
+            .removeAllHolidaysMatching(definition -> definition
+                .holidayEnglishName().equals("New Year's Day"))
             .createCalendar();
 
-    // TODO: Make removal possible
-    assertFalse(true);
+    Holiday firstHoliday = custom.holidaysForYear(2000).get(0);
+    assertThat(firstHoliday)
+        .doesNotHaveName("New Year's Day");
   }
 
   @Test
@@ -94,11 +86,8 @@ public class HolidayCalendarsTest {
                 HolidayDefinition.newBuilder()
                     .withEnglishName("Test")
                     .withPolishName("Test")
-                    .usesAlgorithm(new FixedDateHolidayDateAlgorithm(1, 1))
-                    .defineRule(HolidayDefinitionRule.newBuilder()
-                        .validFromYearIncluding(1990)
-                        .withHolidayType(OTHER)
-                        .build())
+                    .withDate(new FixedDateHolidayDateAlgorithm(1, 1))
+                    .withHolidayType(OTHER)
                     .build())
             .createCalendar();
 
