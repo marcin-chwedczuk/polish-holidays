@@ -6,7 +6,7 @@
 
   <groupId>pl.marcinchwedczuk</groupId>
   <artifactId>polish-holidays</artifactId>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Library that provides list of Polish holidays.</description>
