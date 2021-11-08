@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * @see <a href="https://en.wikipedia.org/wiki/Date_of_Easter">Wikipedia articles of the algorithm
  *      used</a>
  */
-public class EasterDateHolidayDateAlgorithm implements HolidayDateAlgorithm {
+class EasterDateHolidayDateAlgorithm implements HolidayDateAlgorithm {
   @Override
   public LocalDate holidayDateForYear(int year) {
     int a = year % 19,

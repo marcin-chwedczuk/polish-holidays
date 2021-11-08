@@ -1,30 +1,30 @@
 package pl.marcinchwedczuk.polishholidays;
 
-public class HolidayDefinitionRuleBuilder {
+public class HolidayDefinitionOverrideBuilder {
   private final EffectiveTimespan effectiveTimespan;
   private final HolidayDefinitionOverrideLogic override;
 
-  private HolidayDefinitionRuleBuilder(
+  private HolidayDefinitionOverrideBuilder(
       EffectiveTimespan effectiveTimespan,
       HolidayDefinitionOverrideLogic override) {
     this.effectiveTimespan = effectiveTimespan;
     this.override = override;
   }
 
-  HolidayDefinitionRuleBuilder() {
+  HolidayDefinitionOverrideBuilder() {
     this(null, null);
   }
 
-  public HolidayDefinitionRuleBuilder withEffectiveTimespan(
+  public HolidayDefinitionOverrideBuilder withEffectiveTimespan(
       EffectiveTimespan effectiveTimespan) {
-    return new HolidayDefinitionRuleBuilder(
+    return new HolidayDefinitionOverrideBuilder(
         effectiveTimespan,
         this.override);
   }
 
-  public HolidayDefinitionRuleBuilder withOverride(
+  public HolidayDefinitionOverrideBuilder withOverride(
       HolidayDefinitionOverrideLogic logic) {
-    return new HolidayDefinitionRuleBuilder(
+    return new HolidayDefinitionOverrideBuilder(
         this.effectiveTimespan,
         logic);
   }

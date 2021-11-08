@@ -2,9 +2,9 @@ package pl.marcinchwedczuk.polishholidays;
 
 import static java.util.Objects.requireNonNull;
 
-class HolidayDefinitionOverride {
-  public static HolidayDefinitionRuleBuilder newBuilder() {
-    return new HolidayDefinitionRuleBuilder();
+public class HolidayDefinitionOverride {
+  public static HolidayDefinitionOverrideBuilder newBuilder() {
+    return new HolidayDefinitionOverrideBuilder();
   }
 
   private final EffectiveTimespan effectiveTimespan;

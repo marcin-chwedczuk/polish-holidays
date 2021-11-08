@@ -3,7 +3,7 @@ package pl.marcinchwedczuk.polishholidays;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class RelativeDateHolidayDateAlgorithm implements HolidayDateAlgorithm {
+class RelativeDateHolidayDateAlgorithm implements HolidayDateAlgorithm {
   private final HolidayDateAlgorithm base;
   private final int offsetDays;
 
