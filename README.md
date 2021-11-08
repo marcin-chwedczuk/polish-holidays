@@ -12,6 +12,13 @@ To use it with Maven:
 </dependency>
 ```
 
+Basic usage:
+```java
+List<Holiday> holidays = HolidayCalendars
+        .createPolishHolidaysCalendar()
+        .holidaysForYear(2021);
+```
+
 `example` directory contains a more extensive example.
 To run the example navigate to `example` directory and run:
 ```bash
