@@ -6,30 +6,11 @@
 
   <groupId>pl.marcinchwedczuk</groupId>
   <artifactId>polish-holidays</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 
-  <name>polish-holidays</name>
-  <description>TODO</description>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <!-- Java version -->
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
-    <!-- dependencies -->
-    <junit.version>5.6.2</junit.version>
-    <assertj.version>3.16.1</assertj.version>
-    <equalsverifier.version>3.6.1</equalsverifier.version>
-
-    <!-- Maven's plugins -->
-    <maven-surefire.plugin.version>3.0.0-M5</maven-surefire.plugin.version>
-    <maven-spotless.plugin.version>2.11.0</maven-spotless.plugin.version>
-    <maven-spotbugs.plugin.version>4.4.1</maven-spotbugs.plugin.version>
-  </properties>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Library that provides list of Polish holidays.</description>
+  <url>https://github.com/marcin-chwedczuk/polish-holidays</url>
 
   <licenses>
     <license>
@@ -49,6 +30,37 @@
     <system>GitHub</system>
     <url>https://github.com/marcin-chwedczuk/polish-holidays/issues</url>
   </issueManagement>
+
+  <developers>
+    <developer>
+      <name>0xmarcin</name>
+      <email>0xmarcin+oss@gmail.com</email>
+      <url>https://marcinchwedczuk.pl/</url>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Java version -->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <!-- dependencies -->
+    <junit.version>5.6.2</junit.version>
+    <assertj.version>3.16.1</assertj.version>
+    <equalsverifier.version>3.6.1</equalsverifier.version>
+
+    <!-- Maven's plugins -->
+    <maven-surefire.plugin.version>3.0.0-M5</maven-surefire.plugin.version>
+    <maven-spotless.plugin.version>2.11.0</maven-spotless.plugin.version>
+    <maven-spotbugs.plugin.version>4.4.1</maven-spotbugs.plugin.version>
+
+    <maven-reporting.plugin.version>3.1.0</maven-reporting.plugin.version>
+    <maven-source.plugin.version>3.2.0</maven-source.plugin.version>
+    <maven-javadoc.plugin.version>3.3.0</maven-javadoc.plugin.version>
+    <nexus-staging.plugin.version>1.6.7</nexus-staging.plugin.version>
+  </properties>
 
   <dependencies>
     <!-- Test dependencies -->
@@ -164,4 +176,93 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>sonatype</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>${nexus-staging.plugin.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <!-- TODO: Move to props -->
+            <version>3.0.1</version>
+            <configuration>
+              <interactive>false</interactive>
+            </configuration>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <reportSets>
+              <reportSet>
+                <id>aggregate</id>
+                <inherited>false</inherited>
+                <reports>
+                  <report>aggregate</report>
+                </reports>
+              </reportSet>
+              <reportSet>
+                <id>default</id>
+                <reports>
+                  <report>javadoc</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+        </plugins>
+      </reporting>
+    </profile>
+
+  </profiles>
 </project>
