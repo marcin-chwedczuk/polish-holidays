@@ -1,8 +1,0 @@
-- Write fucking code
-
-- Add automatic-module-name, and maybe provide module-info (check how to do this)
-- Publish on Maven Central
-- Readme, tags and description.
-- Add slavic holidays e.g. noc kupały
-- Long name / short name for holiday names e.g. dzień flagi
-- 15 sierpnia - nałożyć święto wojska polskiego

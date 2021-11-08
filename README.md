@@ -1,9 +1,12 @@
 
 # Polish Holidays
 
+![Build Status](https://github.com/marcin-chwedczuk/polish-holidays/actions/workflows/ci.yaml/badge.svg)
+
+
 PolishHolidays is a simple library that returns list of Polish holidays.
 
-To use it with Maven:
+To use it with Maven add:
 ```xml
 <dependency>
     <groupId>pl.marcinchwedczuk</groupId>
@@ -19,7 +22,7 @@ List<Holiday> holidays = HolidayCalendars
         .holidaysForYear(2021);
 ```
 
-`example` directory contains a more extensive example.
+`example` directory contains more extensive example.
 To run the example navigate to `example` directory and run:
 ```bash
 ../mvnw -f pom.xml clean package
